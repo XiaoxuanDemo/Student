@@ -1,11 +1,20 @@
 package com.lixian.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,12 +72,40 @@ public class TeacherController {
 		}
 		
 	}
-	@RequestMapping(value="test",method=RequestMethod.POST)
+	
+	/**
+	 * 更新教师用户信息
+	 * @param teacherid 教师编号
+	 * @param email 电子邮件
+	 * @param tel 电话
+	 * @return
+	 */
+	@RequestMapping(value="/update",method=RequestMethod.POST)
 	@ResponseBody
-	public Object upLoadTeacher(@RequestParam("name")MultipartFile file){
-		if(file==null||file.isEmpty()){
-			
+	public Object updateTeacherInfo(String teacherid,String email,String tel){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(teacherid)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("教师id为空");
+			return ret;
 		}
-		return null;
+		Teacher tea = teaService.getTeacher(teacherid);
+		if (tea!=null) {
+			if(!Utils.isParmNull(email)){
+				tea.setEmail(email);
+			}
+			if(!Utils.isParmNull(tel)){
+				tea.setTelphone(tel);
+			}
+			ret.setCode(ret.SUCCESS);
+			ret.setMessage("更新成功");
+			return ret;
+		}else{
+			ret.setCode(ret.DBERROR);
+			ret.setMessage("为找到该教师");
+			return ret;
+		}
+		
 	}
+	
 }

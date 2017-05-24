@@ -6,7 +6,7 @@
 
 <generatorConfiguration>
     <classPathEntry
-        location="C:\Users\10789\.m2\repository\mysql\mysql-connector-java\5.1.30\mysql-connector-java-5.1.30.jar" />
+        location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.30\mysql-connector-java-5.1.30.jar" />
     <context id="mysqlTables" targetRuntime="MyBatis3">
     
         <commentGenerator>
@@ -41,7 +41,7 @@
         </javaClientGenerator>
 
          <!-- 这里是数据库的表名table_user 以及 POJO类的名字User -->
-        <table tableName="kecheng" domainObjectName="Kecheng"
+        <table tableName="banji" domainObjectName="Banji"
             enableCountByExample="false" enableSelectByExample="false"
             enableUpdateByExample="false" enableDeleteByExample="false">
 
