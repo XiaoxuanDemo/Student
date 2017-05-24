@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lixian.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.lixian.model.Student">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="stunam" jdbcType="VARCHAR" property="stunam" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="classid" jdbcType="VARCHAR" property="classid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, stunam, password, classid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lixian.model.Student">
+    insert into user (id, stunam, password, 
+      classid)
+    values (#{id,jdbcType=VARCHAR}, #{stunam,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{classid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lixian.model.Student">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="stunam != null">
+        stunam,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="classid != null">
+        classid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="stunam != null">
+        #{stunam,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null">
+        #{classid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lixian.model.Student">
+    update user
+    <set>
+      <if test="stunam != null">
+        stunam = #{stunam,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null">
+        classid = #{classid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lixian.model.Student">
+    update user
+    set stunam = #{stunam,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      classid = #{classid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
