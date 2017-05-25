@@ -90,4 +90,7 @@
       email = #{email,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="searchTeacher" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select id,teachername,telphone,email FROM teacher where teachername like "%"#{teachername,jdbcType=VARCHAR}"%"
+  </select>
 </mapper>

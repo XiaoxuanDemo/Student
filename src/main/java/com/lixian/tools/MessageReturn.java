@@ -11,6 +11,10 @@ public class MessageReturn {
 	public static final int IOERROR=-3;
 	//参数异常
 	public static final int PARMERROR=-4;
+	//密码错误
+	public static final int PASSWORDERROR=-5;
+	//未找到记录
+	public static final int RECODEISNOFOUND=-6;
 	private String message;
 	private int code;
 	private Object data;

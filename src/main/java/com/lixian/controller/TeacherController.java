@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lixian.model.Kecheng;
 import com.lixian.model.Teacher;
 import com.lixian.service.TeacherService;
+import com.lixian.tools.MD5Tools;
 import com.lixian.tools.MessageReturn;
 import com.lixian.tools.Utils;
 
@@ -53,7 +55,7 @@ public class TeacherController {
 		UUID uuid = UUID.randomUUID();
 		tea.setId(uuid.toString());
 		tea.setTeachername(teachername);
-		tea.setPassword(password);
+		tea.setPassword(MD5Tools.MD5(password));
 		if (!Utils.isParmNull(email)) {
 			tea.setEmail(email);
 		}
@@ -106,6 +108,38 @@ public class TeacherController {
 			return ret;
 		}
 		
+	}
+	/**
+	 * 添加课程
+	 * @param name
+	 * @param teacherid
+	 * @param classid
+	 * @param stunum
+	 * @return
+	 */
+	@RequestMapping(value="/addKecheng",method=RequestMethod.POST)
+	@ResponseBody
+	public Object addKeChen(String name,String teacherid,String classid,Integer stunum){
+		MessageReturn ret = new MessageReturn();
+		if(Utils.isParmNull(name)||Utils.isParmNull(teacherid)||Utils.isParmNull(classid)||stunum==null||stunum<0){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		Kecheng kc = new Kecheng();
+		kc.setClassid(classid);
+		kc.setTeahcerid(teacherid);
+		kc.setId(UUID.randomUUID().toString());
+		kc.setStunum(stunum);
+		kc.setName(name);
+		if(teaService.addKecheng(kc)){
+			ret.setCode(ret.SUCCESS);
+			ret.setMessage("添加成功");
+			return ret;
+		}
+		ret.setCode(ret.DBERROR);
+		ret.setMessage("数据库异常");
+		return ret;
 	}
 	
 }
