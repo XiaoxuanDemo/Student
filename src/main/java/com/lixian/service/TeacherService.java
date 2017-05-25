@@ -2,6 +2,7 @@ package com.lixian.service;
 
 import java.util.List;
 
+import com.lixian.model.Kecheng;
 import com.lixian.model.Teacher;
 
 public interface TeacherService {
@@ -23,5 +24,17 @@ public interface TeacherService {
 	 * @return
 	 */
 	Teacher getTeacher(String id);
-	List<Teacher> searchTeacher(Teacher tea);
+	/**
+	 * 查找教师
+	 * @param tea
+	 * @return
+	 */
+	List<Teacher> searchTeacher(String keyword);
+	/**
+	 * 添加课程
+	 * @param kc
+	 * @return
+	 */
+	boolean addKecheng(Kecheng kc);
+	void improtKecheng(List<Kecheng> kcs);
 }

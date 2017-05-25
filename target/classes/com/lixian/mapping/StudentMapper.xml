@@ -79,4 +79,7 @@
       classid = #{classid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="getStudentInfo" parameterType="java.lang.String" resultMap="com.lixian.model.StudentInfo">
+  select a.id,a.password,a.stunam,b.classname from user as a ,banji as b where a.id="A2013121002" and a.classid=b.classid
+  </select>
 </mapper>

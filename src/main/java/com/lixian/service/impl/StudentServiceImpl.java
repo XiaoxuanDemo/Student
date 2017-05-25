@@ -1,8 +1,11 @@
 package com.lixian.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lixian.mapper.StudentMapper;
 import com.lixian.model.Student;
@@ -22,6 +25,31 @@ public class StudentServiceImpl implements StudentService{
 			return true;
 		}
 		return false;
+	}
+	@Transactional
+	public void importUser(List<Student> stus) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < stus.size(); i++) {
+			Student stu = stus.get(i);
+			int insert = studao.insert(stu);
+			if(insert>0){
+				
+			}else{
+				throw new RuntimeException();
+			}
+		}
+	}
+	@Override
+	public Student login(Student stu) {
+		// TODO Auto-generated method stub
+		Student key = studao.selectByPrimaryKey(stu.getId());
+		if(key==null){
+			return stu;
+		}
+		if(stu.getPassword().equals(key.getPassword())){
+			return key;
+		}
+		return null;
 	}
 
 }

@@ -90,4 +90,7 @@
       stunum = #{stunum,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="searchKecheng" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from kecheng where name like "%"#{name,jdbcType=VARCHAR}"%"
+  </select>
 </mapper>
