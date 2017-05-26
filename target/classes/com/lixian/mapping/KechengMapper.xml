@@ -93,4 +93,14 @@
   <select id="searchKecheng" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select * from kecheng where name like "%"#{name,jdbcType=VARCHAR}"%"
   </select>
+  <select id="getChoseCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select COUNT(*) from stukecheng where kechengid=#{kechengid,jdbcType=VARCHAR}
+  </select>
+  <select id="getStuchoseKecheng" resultType="java.lang.Integer">
+  select COUNT(*) from stukecheng where stuid=#{stuid,jdbcType=VARCHAR} and kechengid=#{kechengid,jdbcType=VARCHAR}
+  </select>
+    <delete id="deleteStuKecheng" parameterType="java.lang.String">
+    delete from stukecheng
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
 </mapper>

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.Teacher;
 import com.lixian.service.TeacherService;
@@ -44,7 +45,7 @@ public class TeacherController {
 	 */
 	@RequestMapping(value="/addTeacher",method=RequestMethod.POST)
 	@ResponseBody
-	public Object addTeacher(String teachername,String password,String telphone,String email){
+	public Object addTeacher(String teacherid,String teachername,String password,String telphone,String email){
 		MessageReturn ret = new MessageReturn();
 		if(Utils.isParmNull(teachername)||Utils.isParmNull(password)){
 			ret.setCode(ret.PARMISNULL);
@@ -52,8 +53,8 @@ public class TeacherController {
 			return ret;
 		}
 		Teacher tea = new Teacher();
-		UUID uuid = UUID.randomUUID();
-		tea.setId(uuid.toString());
+	
+		tea.setId(teacherid);
 		tea.setTeachername(teachername);
 		tea.setPassword(MD5Tools.MD5(password));
 		if (!Utils.isParmNull(email)) {
@@ -80,15 +81,21 @@ public class TeacherController {
 	 * @param teacherid 教师编号
 	 * @param email 电子邮件
 	 * @param tel 电话
+	 * @param token token
 	 * @return
 	 */
 	@RequestMapping(value="/update",method=RequestMethod.POST)
 	@ResponseBody
-	public Object updateTeacherInfo(String teacherid,String email,String tel){
+	public Object updateTeacherInfo(String teacherid,String email,String tel,String token){
 		MessageReturn ret=new MessageReturn();
 		if(Utils.isParmNull(teacherid)){
 			ret.setCode(ret.PARMISNULL);
 			ret.setMessage("教师id为空");
+			return ret;
+		}
+		if(!checkUser(teacherid, token)){
+			ret.setCode(ret.PARMERROR);
+			ret.setMessage("用户不合法");
 			return ret;
 		}
 		Teacher tea = teaService.getTeacher(teacherid);
@@ -111,20 +118,24 @@ public class TeacherController {
 	}
 	/**
 	 * 添加课程
-	 * @param name
-	 * @param teacherid
-	 * @param classid
-	 * @param stunum
+	 * @param name 课程名
+	 * @param teacherid 教师编号
+	 * @param classid 班级编号
+	 * @param stunum 学生人数
+	 * @param token token
 	 * @return
 	 */
 	@RequestMapping(value="/addKecheng",method=RequestMethod.POST)
 	@ResponseBody
-	public Object addKeChen(String name,String teacherid,String classid,Integer stunum){
+	public Object addKeChen(String name,String teacherid,String classid,Integer stunum,String token){
 		MessageReturn ret = new MessageReturn();
 		if(Utils.isParmNull(name)||Utils.isParmNull(teacherid)||Utils.isParmNull(classid)||stunum==null||stunum<0){
 			ret.setCode(ret.PARMISNULL);
 			ret.setMessage("参数为空");
 			return ret;
+		}
+		if(checkUser(teacherid, token)){
+			
 		}
 		Kecheng kc = new Kecheng();
 		kc.setClassid(classid);
@@ -141,5 +152,176 @@ public class TeacherController {
 		ret.setMessage("数据库异常");
 		return ret;
 	}
-	
+	/**
+	 * 教师登录
+	 * @param teacherid
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@ResponseBody
+	public Object Login(String teacherid,String password){
+		MessageReturn ret = new MessageReturn();
+		if(Utils.isParmNull(teacherid)||Utils.isParmNull(password)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+		}
+		Teacher tea = teaService.getTeacher(teacherid);
+		if(tea==null){
+			ret.setCode(ret.RECODEISNOFOUND);
+			ret.setMessage("未找到该用户");
+			return ret;
+		}
+		if(tea.getPassword().equals(MD5Tools.MD5(password))){
+			ret.setCode(ret.SUCCESS);
+			ret.setMessage("登录成功");
+			Map m=new HashMap();
+			m.put("teacher", tea);
+			m.put("token", MD5Tools.MD5(tea.getId()+tea.getPassword()));
+			ret.setData(m);
+			return ret;
+		}else{
+			ret.setCode(ret.PASSWORDERROR);
+			ret.setMessage("密码错误");
+			return ret;	
+		}
+		
+	}
+	/**
+	 * 校验教师是否合法
+	 * @param id
+	 * @param token
+	 * @return
+	 */
+	public boolean checkUser(String id,String token){
+		Teacher tea = teaService.getTeacher(id);
+		if(tea==null){
+			return false;
+		}
+		if(token.equals(MD5Tools.MD5(tea.getId()+tea.getPassword()))){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	/**
+	 * 发布作业
+	 * @param teacherid 教师编号
+	 * @param token token
+	 * @param workname 作业名
+	 * @param content 内容
+	 * @param lasttime 最后提交时间 时间戳
+	 * @param kechengid 课程编号
+	 * @return
+	 */
+	@RequestMapping(value="/addHomework",method=RequestMethod.POST)
+	@ResponseBody
+	public Object addHomeWrok(String teacherid,String token,String workname,String content,String lasttime,String kechengid){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(teacherid)||Utils.isParmNull(token)||Utils.isParmNull(workname)||Utils.isParmNull(content)||Utils.isParmNull(lasttime)||Utils.isParmNull(kechengid)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		if(!checkUser(teacherid, token)){
+			ret.setCode(ret.PARMERROR);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+		Homework work = new Homework();
+		work.setContent(content);
+		work.setKechengid(kechengid);
+		work.setName(workname);
+		work.setLasttime(lasttime);
+		work.setId(UUID.randomUUID().toString());
+		if(teaService.addHomeWork(work)){
+			ret.setCode(ret.SUCCESS);
+			ret.setMessage("发布成功");
+			return ret;
+		}
+		ret.setCode(ret.DBERROR);
+		ret.setMessage("发布失败");
+		return ret;
+	}
+	/**
+	 * 更新作业信息
+	 * @param teacherid 教师ID
+	 * @param token token
+	 * @param workname 作业名字
+	 * @param content 作业内容
+	 * @param lasttime 最迟提交时间
+	 * @param kechengid 课程id
+	 * @param workid 作业id
+	 * @return
+	 */
+	@RequestMapping(value="/updateHomeWork",method=RequestMethod.POST)
+	@ResponseBody
+	public Object upDateHomeWork(String teacherid,String token,String workname,String content,String lasttime,String kechengid,String workid){
+		MessageReturn ret = new MessageReturn();
+		if(checkUser(teacherid, token)){
+			Homework work = teaService.getHomework(workid);
+			if(work==null){
+				ret.setCode(ret.RECODEISNOFOUND);
+				ret.setMessage("未找到该作业");
+				return ret;
+			}
+			if(Utils.isParmNull(workname)){
+				work.setName(workname);
+			}
+			if(Utils.isParmNull(content)){
+				work.setContent(content);
+			}
+			if(Utils.isParmNull(lasttime)){
+				work.setLasttime(lasttime);
+			}
+			if(Utils.isParmNull(kechengid)){
+				work.setKechengid(kechengid);
+			}
+			if(teaService.updateHomeWork(work)){
+				ret.setCode(ret.SUCCESS);
+				ret.setMessage("更新成功");
+				return ret;
+			}else{
+				ret.setCode(ret.DBERROR);
+				ret.setMessage("更新失败");
+				return ret;
+			}
+		}else{
+			ret.setCode(ret.PASSWORDERROR);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+	}
+	/**
+	 * 删除作业
+	 * @param teacherid 教师编号
+	 * @param token token
+	 * @param workid 作业编号
+	 * @return
+	 */
+	@RequestMapping(value="/deleteHomeWork",method=RequestMethod.POST)
+	@ResponseBody
+	public Object deleteHomeWork(String teacherid,String token,String workid){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(teacherid)||Utils.isParmNull(token)||Utils.isParmNull(workid)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		if(checkUser(teacherid, token)){
+			if(teaService.deleteHomeWork(workid)){
+				ret.setCode(ret.SUCCESS);
+				ret.setMessage("删除成功");
+				return ret;
+			}else{
+				ret.setCode(ret.DBERROR);
+				ret.setMessage("删除失败");
+				return ret;
+			}
+		}else{
+			ret.setCode(ret.RECODEISNOFOUND);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+	}
 }

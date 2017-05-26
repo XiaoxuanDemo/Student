@@ -41,7 +41,7 @@
         </javaClientGenerator>
 
          <!-- 这里是数据库的表名table_user 以及 POJO类的名字User -->
-        <table tableName="banji" domainObjectName="Banji"
+        <table tableName="homework" domainObjectName="Homework"
             enableCountByExample="false" enableSelectByExample="false"
             enableUpdateByExample="false" enableDeleteByExample="false">
 

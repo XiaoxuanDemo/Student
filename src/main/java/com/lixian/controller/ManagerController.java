@@ -64,13 +64,14 @@ public class ManagerController {
 					for (int i = 0; i < sheet.getLastRowNum(); i++) {
 						Row row = sheet.getRow(i);
 						Teacher tea = new Teacher();
-						UUID uuid = UUID.randomUUID();
-						tea.setId(uuid.toString());
-						String teaname = row.getCell(0).toString();
-						String pwd=row.getCell(1).toString();
-						if(Utils.isParmNull(teaname)||Utils.isParmNull(pwd)){
+						String id = row.getCell(0).toString();
+						
+						String teaname = row.getCell(1).toString();
+						String pwd=row.getCell(2).toString();
+						if(Utils.isParmNull(teaname)||Utils.isParmNull(pwd)||Utils.isParmNull(id)){
 							throw new NullPointerException();
 						}
+						tea.setId(id);
 						tea.setTeachername(teaname);
 						tea.setPassword(MD5Tools.MD5(pwd));
 						teas.add(tea);
