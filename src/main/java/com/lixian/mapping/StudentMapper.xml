@@ -7,6 +7,12 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="classid" jdbcType="VARCHAR" property="classid" />
   </resultMap>
+   <resultMap id="StudentInfo" type="com.lixian.model.StudentInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="stunam" jdbcType="VARCHAR" property="stuname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="classname" jdbcType="VARCHAR" property="classname" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, stunam, password, classid
   </sql>
@@ -79,7 +85,19 @@
       classid = #{classid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="getStudentInfo" parameterType="java.lang.String" resultMap="com.lixian.model.StudentInfo">
-  select a.id,a.password,a.stunam,b.classname from user as a ,banji as b where a.id="A2013121002" and a.classid=b.classid
+  <select id="getStudentInfo" parameterType="java.lang.String" resultMap="StudentInfo">
+  select a.id,a.password,a.stunam,b.classname from user as a ,banji as b where a.id=#{id,jdbcType=VARCHAR} and a.classid=b.classid
+  </select>
+  <insert id="insertStuKc" parameterType="java.lang.String">
+  	insert into stukecheng VALUES(#{id,jdbcType=VARCHAR},#{stuid,jdbcType=VARCHAR},#{kechengid,jdbcType=VARCHAR})
+  </insert>
+  <select id="getStudentKechenNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select COUNT(*) from stukecheng as a,kecheng as b where a.kechengid=b.id and a.stuid=#{stuid,jdbcType=VARCHAR}
+  </select>
+  <select id="getStudentCommitNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select COUNT(*) from stupro where stuid=#{stuid,jdbcType=VARCHAR}
+  </select>
+  <select id="getStudentHomeWorkNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select COUNT(*) from homework as a,stukecheng as b where b.kechengid=a.kechengid and b.stuid=#{stuid,jdbcType=VARCHAR}
   </select>
 </mapper>

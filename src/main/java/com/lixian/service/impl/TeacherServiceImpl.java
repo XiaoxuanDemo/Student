@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lixian.mapper.HomeworkMapper;
 import com.lixian.mapper.KechengMapper;
 import com.lixian.mapper.TeacherMapper;
+import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.Teacher;
 import com.lixian.service.TeacherService;
@@ -19,6 +21,8 @@ public class TeacherServiceImpl implements TeacherService{
 	private TeacherMapper teadao;
 	@Resource
 	private KechengMapper kcdao;
+	@Resource
+	private HomeworkMapper workdao;
 	public boolean addTeacher(Teacher teacher) {
 		// TODO Auto-generated method stub
 		return true;
@@ -66,6 +70,34 @@ public class TeacherServiceImpl implements TeacherService{
 				throw new RuntimeException();
 			}
 		}
+	}
+	@Override
+	public boolean addHomeWork(Homework work) {
+		// TODO Auto-generated method stub
+		int i = workdao.insert(work);
+		if(i>0){
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public Homework getHomework(String id) {
+		// TODO Auto-generated method stub
+		return workdao.selectByPrimaryKey(id);
+	}
+	@Override
+	public boolean updateHomeWork(Homework work) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean deleteHomeWork(String workid) {
+		// TODO Auto-generated method stub
+		int i = workdao.deleteByPrimaryKey(workid);
+		if(i>0){
+			return true;
+		}
+		return false;
 	}
 
 	

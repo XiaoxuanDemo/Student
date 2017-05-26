@@ -1,5 +1,7 @@
 package com.lixian.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 
@@ -16,4 +18,8 @@ public interface StudentMapper {
 
     int updateByPrimaryKey(Student record);
     StudentInfo getStudentInfo(String id);
+    Integer insertStuKc(@Param("id")String id,@Param("stuid")String stuid,@Param("kechengid")String kechenegid);
+    Integer getStudentHomeWorkNum(@Param("stuid")String stuid);
+    Integer getStudentCommitNum(@Param("stuid")String stuid);
+    Integer getStudentKechenNum(@Param("stuid")String stuid);
 }

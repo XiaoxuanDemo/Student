@@ -1,20 +1,28 @@
 package com.lixian.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lixian.mapper.KechengMapper;
 import com.lixian.mapper.StudentMapper;
+import com.lixian.model.Homework;
+import com.lixian.model.Kecheng;
 import com.lixian.model.Student;
+import com.lixian.model.StudentInfo;
+import com.lixian.model.Stupro;
 import com.lixian.service.StudentService;
 
 @Service("StudentService")
 public class StudentServiceImpl implements StudentService{
 	@Resource
 	private StudentMapper studao;
+	@Resource
+	private KechengMapper kcdao;
 	/**
 	 * Ìí¼ÓÑ§Éú
 	 */
@@ -40,16 +48,68 @@ public class StudentServiceImpl implements StudentService{
 		}
 	}
 	@Override
-	public Student login(Student stu) {
+	public StudentInfo login(Student stu) {
 		// TODO Auto-generated method stub
-		Student key = studao.selectByPrimaryKey(stu.getId());
-		if(key==null){
-			return stu;
+		try{
+			StudentInfo info = studao.getStudentInfo(stu.getId());
+			if(info==null){
+				return null; 
+			}
+			if(info.getPassword().equals(stu.getPassword())){
+				return info;
+			}
+			return null;
+		}catch(NullPointerException e){
+			return null;
 		}
-		if(stu.getPassword().equals(key.getPassword())){
-			return key;
+	}
+	@Override
+	public Student getStudent(Student stu) {
+		// TODO Auto-generated method stub
+		return studao.selectByPrimaryKey(stu.getId());
+	}
+
+	@Override
+	public boolean choseKecheng(String stuid,String kechengid) {
+		// TODO Auto-generated method stub
+		int count = kcdao.getChoseCount(kechengid);
+		int k=kcdao.getStuchoseKecheng(stuid, kechengid);
+		if(k>0){
+			return false;
 		}
-		return null;
+		Kecheng key = kcdao.selectByPrimaryKey(kechengid);
+		if(key.getStunum()<count){
+			return false;
+		}
+		int i = studao.insertStuKc(UUID.randomUUID().toString(), stuid, kechengid);
+		if(i>0){
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public int getStudentHomeWorkNum(String stuid) {
+		// TODO Auto-generated method stub
+		return studao.getStudentHomeWorkNum(stuid);
+	}
+	@Override
+	public int getStudentCommitNum(String stuid) {
+		// TODO Auto-generated method stub
+		return studao.getStudentCommitNum(stuid);
+	}
+	@Override
+	public int getStudentKechenNum(String stuid) {
+		// TODO Auto-generated method stub
+		return studao.getStudentKechenNum(stuid);
+	}
+	@Override
+	public boolean deleteKecheng(String id) {
+		// TODO Auto-generated method stub
+		Integer i = kcdao.deleteStuKecheng(id);
+		if(i>0){
+			return true;
+		}
+		return false;
 	}
 
 }
