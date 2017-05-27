@@ -61,4 +61,10 @@ public interface StudentService {
 	 * @return
 	 */
 	public boolean deleteKecheng(String kechengid);
+	/**
+	 * 获取学生可选课程
+	 * @param stuid
+	 * @return
+	 */
+	public List<Kecheng> getStudentCanKecheng(String stuid);
 }

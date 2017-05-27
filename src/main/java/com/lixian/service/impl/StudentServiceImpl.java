@@ -111,5 +111,11 @@ public class StudentServiceImpl implements StudentService{
 		}
 		return false;
 	}
+	@Override
+	public List<Kecheng> getStudentCanKecheng(String stuid) {
+		// TODO Auto-generated method stub
+		
+		return kcdao.getStuCanKecheng(stuid);
+	}
 
 }

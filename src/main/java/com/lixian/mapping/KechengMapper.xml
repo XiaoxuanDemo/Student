@@ -103,4 +103,7 @@
     delete from stukecheng
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <select id="getStuCanKecheng" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select a.* from kecheng as a,user as b where a.classid=b.classid and b.id=#{id,jdbcType=VARCHAR} and a.id not in (select kechengid from stukecheng where stuid=b.id)
+  </select>
 </mapper>

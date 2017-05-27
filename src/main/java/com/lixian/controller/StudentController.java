@@ -47,6 +47,7 @@ public class StudentController {
 		if(login==null){
 			ret.setCode(ret.RECODEISNOFOUND);
 			ret.setMessage("用户名或者密码不正确");
+			return ret;
 		}
 		ret.setCode(ret.SUCCESS);
 		ret.setMessage("登录成功");
@@ -165,5 +166,24 @@ public class StudentController {
 			ret.setMessage("用户不合法");
 			return ret;
 		}
+	}
+	/**
+	 * 查询学生可选课程
+	 * @param stuid
+	 * @return
+	 */
+	@RequestMapping(value="/showStudentKc",method=RequestMethod.POST)
+	@ResponseBody
+	public Object showKecheng(String stuid){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(stuid)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		ret.setCode(ret.SUCCESS);
+		ret.setData(stuService.getStudentCanKecheng(stuid));
+		ret.setMessage("查询成功");
+		return ret;
 	}
 }

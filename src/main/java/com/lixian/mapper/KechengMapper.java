@@ -26,4 +26,6 @@ public interface KechengMapper {
     Integer getStuchoseKecheng(@Param("stuid")String stuid,@Param("kechengid")String kechengid);
     
     Integer deleteStuKecheng(String id);
+    
+    List<Kecheng> getStuCanKecheng(@Param("id")String id);
 }
