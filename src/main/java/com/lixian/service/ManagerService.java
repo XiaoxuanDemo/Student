@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.lixian.model.Banji;
 
+
+
 public interface ManagerService {
 	/**
 	 * µº»Î∞‡º∂

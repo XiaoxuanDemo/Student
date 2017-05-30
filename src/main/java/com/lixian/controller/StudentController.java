@@ -9,7 +9,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
@@ -144,15 +146,15 @@ public class StudentController {
 	 */
 	@RequestMapping(value="/deleteKecheng",method=RequestMethod.POST)
 	@ResponseBody
-	public Object deleteKecheng(String stuid,String token,String id){
+	public Object deleteKecheng(String stuid,String token,String kechengid){
 		MessageReturn ret=new MessageReturn();
-		if(Utils.isParmNull(stuid)||Utils.isParmNull(token)||Utils.isParmNull(id)){
+		if(Utils.isParmNull(stuid)||Utils.isParmNull(token)||Utils.isParmNull(kechengid)){
 			ret.setCode(ret.PARMISNULL);
 			ret.setMessage("参数为空");
 			return ret;
 		}
 		if(checkUser(stuid, token)){
-			if(stuService.deleteKecheng(id)){
+			if(stuService.deleteKecheng(kechengid,stuid)){
 				ret.setCode(ret.SUCCESS);
 				ret.setMessage("删除成功");
 				return ret;
@@ -174,7 +176,7 @@ public class StudentController {
 	 */
 	@RequestMapping(value="/showStudentKc",method=RequestMethod.POST)
 	@ResponseBody
-	public Object showKecheng(String stuid){
+	public Object showkexuanKecheng(String stuid){
 		MessageReturn ret=new MessageReturn();
 		if(Utils.isParmNull(stuid)){
 			ret.setCode(ret.PARMISNULL);
@@ -185,5 +187,39 @@ public class StudentController {
 		ret.setData(stuService.getStudentCanKecheng(stuid));
 		ret.setMessage("查询成功");
 		return ret;
+	}
+	/**
+	 * 查询学生已选课程
+	 * @param stuid
+	 * @param token
+	 * @return
+	 */
+	@RequestMapping(value="/getYixuanKecheng",method=RequestMethod.POST)
+	@ResponseBody
+	public Object showYixuanKecheng(String stuid,String token){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(stuid)||Utils.isParmNull(token)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		ret.setCode(ret.SUCCESS);
+		ret.setMessage("查询成功");
+		ret.setData(stuService.getStudentHaveKecheng(stuid));
+		return ret;
+	}
+	public Object commitHomeWork(String stuid,String homeworkid,@RequestParam("file")MultipartFile file){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(stuid)||Utils.isParmNull(homeworkid)||file==null||file.isEmpty()){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		saveFile(file);
+		return ret;
+	}
+	private boolean saveFile(MultipartFile file) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

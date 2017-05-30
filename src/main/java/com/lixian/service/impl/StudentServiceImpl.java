@@ -12,6 +12,7 @@ import com.lixian.mapper.KechengMapper;
 import com.lixian.mapper.StudentMapper;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
+import com.lixian.model.KechengInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Stupro;
@@ -103,19 +104,30 @@ public class StudentServiceImpl implements StudentService{
 		return studao.getStudentKechenNum(stuid);
 	}
 	@Override
-	public boolean deleteKecheng(String id) {
+	public boolean deleteKecheng(String kechengid,String stuid) {
 		// TODO Auto-generated method stub
-		Integer i = kcdao.deleteStuKecheng(id);
+		Integer i = kcdao.deleteStuKecheng(kechengid,stuid);
+		System.out.println(i);
 		if(i>0){
 			return true;
 		}
 		return false;
 	}
 	@Override
-	public List<Kecheng> getStudentCanKecheng(String stuid) {
+	public List<KechengInfo> getStudentCanKecheng(String stuid) {
 		// TODO Auto-generated method stub
 		
 		return kcdao.getStuCanKecheng(stuid);
+	}
+	@Override
+	public List<KechengInfo> getStudentHaveKecheng(String stuid) {
+		// TODO Auto-generated method stub
+		return kcdao.getStuHaveKecheng(stuid);
+	}
+	@Override
+	public boolean commitHomeWork(String stuid, String filepath, String kechengid) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

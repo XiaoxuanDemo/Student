@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
+import com.lixian.model.KechengInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Stupro;
@@ -60,11 +61,21 @@ public interface StudentService {
 	 * @param kechengid
 	 * @return
 	 */
-	public boolean deleteKecheng(String kechengid);
+	public boolean deleteKecheng(String kechengid,String stuid);
 	/**
 	 * 获取学生可选课程
 	 * @param stuid
 	 * @return
 	 */
-	public List<Kecheng> getStudentCanKecheng(String stuid);
+	public List<KechengInfo> getStudentCanKecheng(String stuid);
+	
+	public List<KechengInfo> getStudentHaveKecheng(String stuid);
+	/**
+	 * 添加作业
+	 * @param stuid
+	 * @param filepath
+	 * @param kechengid
+	 * @return
+	 */
+	public boolean commitHomeWork(String stuid,String filepath,String kechengid);
 }

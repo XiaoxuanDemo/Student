@@ -101,9 +101,15 @@
   </select>
     <delete id="deleteStuKecheng" parameterType="java.lang.String">
     delete from stukecheng
-    where id = #{id,jdbcType=VARCHAR}
+    where stuid=#{stuid,jdbcType=VARCHAR} and kechengid=#{kechengid,jdbcType=VARCHAR}
   </delete>
-  <select id="getStuCanKecheng" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select a.* from kecheng as a,user as b where a.classid=b.classid and b.id=#{id,jdbcType=VARCHAR} and a.id not in (select kechengid from stukecheng where stuid=b.id)
+  <select id="getStuCanKecheng" parameterType="java.lang.String" resultType="com.lixian.model.KechengInfo">
+  	SELECT DISTINCT b.classname, c.id,c.`name`,c.stunum as maxnum,d.teachername from `user` as a,banji as b,kecheng as c,teacher as d,stukecheng as e 
+where a.classid=b.classid and c.teahcerid=d.id and a.id=#{id,jdbcType=VARCHAR} and c.id not in(select kechengid from stukecheng where stuid=a.id)
   </select>
+  <select id="getStuHaveKecheng" parameterType="java.lang.String" resultType="com.lixian.model.KechengInfo">
+  		SELECT DISTINCT b.id,b.`name`,b.stunum as maxnum,c.classname,e.teachername from `user` as a,kecheng as b,banji as c,stukecheng as d,teacher as e 
+WHERE b.id=d.kechengid and c.classid=b.classid and e.id=b.teahcerid and d.stuid=#{stuid,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>
