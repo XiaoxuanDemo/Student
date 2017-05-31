@@ -1,31 +1,73 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>教师用户导入</title>
 		<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
-</script>
+		</script>
 	</head>
+
 	<body>
 		<script>
-			function upload(){
+			function upload() {
 				var head = new FormData();
+
+				head.append('file', $('#file')[0].files[0]);
+				$.ajax({
+					type: "post",
+					url: "student/testFile",
+					data: head,
+					processData: false,
+					contentType: false
+				}).done(function(data) {
+					console.log(data)
+				});
+			}
+
+			function loaddata() {
+				var stuid=GetQueryString("stuid");
+				var token=GetQueryString("token");
 				
-		head.append('file', $('#file')[0].files[0]);
-		$.ajax({
-			type : "post",
-			url : "student/testFile",
-			data : head,
-			processData : false,
-			contentType : false
-		}).done(function(data) {
-			console.log(data)
-		});
+				var head = new FormData();
+				head.append("stuid",stuid);
+				head.append("token",token);
+				$.ajax({
+					type: "post",
+					url: "student/showHomeWork",
+					data: head,
+					processData: false,
+					contentType: false
+				}).done(function(data) {
+					var js=JSON.parse(data);
+					var homework=document.getElementById("homework");
+					console.log(js.data.length)
+					for (var i=0;i<js.data.length;i++)
+					{ 
+    					document.getElementById("homework").options.add(new Option("课程名："+js.data[i].kechengname+",作业名："+js.data[i].name+",作业内容："+js.data[i].content,js.data[i].id));
+					}
+				});
+				}
+			function GetQueryString(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
 			}
 		</script>
-			<input type="file" id="file" />
-			<br />
-			<input type="button" id="commit" value="上传" onclick="upload()"/>
+		<script>
+			$(document).ready(function() {
+				loaddata()
+			})
+		</script>
+		<select id="homework" style="width: 400px;height: 30px;">
+			
+		</select>
+		<br />
+		<input type="file" id="file" />
+		<br />
+		<input type="button" id="commit" value="上传" onclick="upload()" />
 
 	</body>
+
 </html>
