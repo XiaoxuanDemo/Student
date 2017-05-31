@@ -1,8 +1,11 @@
 package com.lixian.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Stupro;
@@ -208,6 +212,8 @@ public class StudentController {
 		ret.setData(stuService.getStudentHaveKecheng(stuid));
 		return ret;
 	}
+	@RequestMapping(value="/commitHomeWork",method=RequestMethod.POST)
+	@ResponseBody
 	public Object commitHomeWork(String stuid,String homeworkid,@RequestParam("file")MultipartFile file){
 		MessageReturn ret=new MessageReturn();
 		if(Utils.isParmNull(stuid)||Utils.isParmNull(homeworkid)||file==null||file.isEmpty()){
@@ -215,11 +221,89 @@ public class StudentController {
 			ret.setMessage("参数为空");
 			return ret;
 		}
-		saveFile(file);
+		String path = saveFile(file,stuid,homeworkid);
+		if(path==null){
+			ret.setCode(ret.FILESAVEERROR);
+			ret.setMessage("文件存储异常");
+		}
+		stuService.commitHomeWork(stuid, path, homeworkid);
 		return ret;
 	}
-	private boolean saveFile(MultipartFile file) {
+	private String saveFile(MultipartFile file,String stuid,String homeworkid) {
 		// TODO Auto-generated method stub
-		return false;
+		String root = System.getProperty("rootpath");
+		String[] split = file.getOriginalFilename().split(".");
+		
+		String uuid = UUID.randomUUID().toString();
+		String string = uuid.substring(0, 3);
+		if(split.length>1){
+			File f = new File(root+"/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0]+"."+split[1]);
+			if(!f.getParentFile().exists()){
+				f.getParentFile().mkdirs();
+			}
+			try {
+				file.transferTo(f);
+				return "/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0]+"."+split[1];
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				return null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+//				e.printStackTrace();
+				return null;
+			}
+		}else{
+			File f = new File(root+"/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0]);
+			if(!f.getParentFile().exists()){
+				f.getParentFile().mkdirs();
+			}
+			try {
+				file.transferTo(f);
+				return "/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0];
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				return null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+//				e.printStackTrace();
+				return null;
+			}
+		}
 	}
+	/**
+	 * 查看作业
+	 * @param stuid
+	 * @return
+	 */
+	@RequestMapping(value="/showHomeWork",method=RequestMethod.POST)
+	@ResponseBody
+	public Object showHomeWork(String stuid,String token){
+		MessageReturn ret = new MessageReturn();
+		if(Utils.isParmNull(stuid)||Utils.isParmNull(token)){
+			ret.setMessage("参数为空");
+			ret.setCode(ret.PARMISNULL);
+			return ret;
+		}
+		if(checkUser(stuid, token)){
+			List<HomeWorkInfo> list = stuService.showHomeWork(stuid);
+			ret.setMessage("查询成功");
+			ret.setCode(ret.SUCCESS);
+			ret.setData(list);
+			return ret;
+		}else{
+			ret.setCode(ret.RECODEISNOFOUND);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+		
+	}
+	@RequestMapping(value="/testFile",method=RequestMethod.POST)
+	@ResponseBody
+	public String testFile(@RequestParam("file")MultipartFile file){
+		if(file!=null){
+			System.out.println(file.getOriginalFilename());
+		}
+		return "success";
+	}
+	
 }

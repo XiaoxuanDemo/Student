@@ -100,4 +100,7 @@
   <select id="getStudentHomeWorkNum" parameterType="java.lang.String" resultType="java.lang.Integer">
   select COUNT(*) from homework as a,stukecheng as b where b.kechengid=a.kechengid and b.stuid=#{stuid,jdbcType=VARCHAR}
   </select>
+  <select id="getHomeWork" parameterType="java.lang.String" resultType="com.lixian.model.HomeWorkInfo">
+  	select b.`name` as kechengname,c.id,c.`name`,c.content,c.lasttime from stukecheng as a,kecheng as b ,homework as c where b.id=a.kechengid and c.kechengid=a.kechengid and a.stuid=#{stuid,jdbcType=VARCHAR}
+  </select>
 </mapper>

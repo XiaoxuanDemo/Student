@@ -15,6 +15,8 @@ public class MessageReturn {
 	public static final int PASSWORDERROR=-5;
 	//未找到记录
 	public static final int RECODEISNOFOUND=-6;
+	//文件存储异常
+	public static final int FILESAVEERROR=-7;
 	private String message;
 	private int code;
 	private Object data;

@@ -1,7 +1,10 @@
 package com.lixian.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 
@@ -22,4 +25,6 @@ public interface StudentMapper {
     Integer getStudentHomeWorkNum(@Param("stuid")String stuid);
     Integer getStudentCommitNum(@Param("stuid")String stuid);
     Integer getStudentKechenNum(@Param("stuid")String stuid);
+    List<HomeWorkInfo> getHomeWork(@Param("stuid")String stuid);
+    Integer addStuHomeWrok();
 }

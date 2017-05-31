@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>教师用户导入</title>
+		<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+	</head>
+	<body>
+		<script>
+			function upload(){
+				var head = new FormData();
+				
+		head.append('file', $('#file')[0].files[0]);
+		$.ajax({
+			type : "post",
+			url : "student/testFile",
+			data : head,
+			processData : false,
+			contentType : false
+		}).done(function(data) {
+			console.log(data)
+		});
+			}
+		</script>
+			<input type="file" id="file" />
+			<br />
+			<input type="button" id="commit" value="上传" onclick="upload()"/>
+
+	</body>
+</html>

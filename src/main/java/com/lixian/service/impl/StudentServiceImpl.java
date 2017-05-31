@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lixian.mapper.KechengMapper;
 import com.lixian.mapper.StudentMapper;
+import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.KechengInfo;
@@ -128,6 +129,11 @@ public class StudentServiceImpl implements StudentService{
 	public boolean commitHomeWork(String stuid, String filepath, String kechengid) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public List<HomeWorkInfo> showHomeWork(String stuid) {
+		// TODO Auto-generated method stub
+		return studao.getHomeWork(stuid);
 	}
 
 }

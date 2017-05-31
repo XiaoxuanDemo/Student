@@ -2,6 +2,7 @@ package com.lixian.service;
 
 import java.util.List;
 
+import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.KechengInfo;
@@ -78,4 +79,10 @@ public interface StudentService {
 	 * @return
 	 */
 	public boolean commitHomeWork(String stuid,String filepath,String kechengid);
+	/**
+	 * 显示学生作业内容
+	 * @param stuid
+	 * @return
+	 */
+	public List<HomeWorkInfo> showHomeWork(String stuid);
 }
