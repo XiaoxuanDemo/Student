@@ -17,6 +17,7 @@ public class MessageReturn {
 	public static final int RECODEISNOFOUND=-6;
 	//ÎÄ¼þ´æ´¢Òì³£
 	public static final int FILESAVEERROR=-7;
+	
 	private String message;
 	private int code;
 	private Object data;

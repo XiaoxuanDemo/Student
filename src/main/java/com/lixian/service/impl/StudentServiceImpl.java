@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lixian.mapper.KechengMapper;
 import com.lixian.mapper.StudentMapper;
+import com.lixian.mapper.StuproMapper;
 import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
@@ -17,6 +18,7 @@ import com.lixian.model.KechengInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Stupro;
+import com.lixian.model.StuproInfo;
 import com.lixian.service.StudentService;
 
 @Service("StudentService")
@@ -25,6 +27,8 @@ public class StudentServiceImpl implements StudentService{
 	private StudentMapper studao;
 	@Resource
 	private KechengMapper kcdao;
+	@Resource
+	private StuproMapper prodao;
 	/**
 	 * Ìí¼ÓÑ§Éú
 	 */
@@ -128,12 +132,31 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public boolean commitHomeWork(String stuid, String filepath, String kechengid) {
 		// TODO Auto-generated method stub
+		long currentTimeMillis = System.currentTimeMillis();
+		String time=currentTimeMillis/1000+"";
+		Stupro pro = new Stupro();
+		String id=UUID.randomUUID().toString();
+		pro.setId(id);
+		pro.setFilepath(filepath);
+		pro.setScore(0);
+		pro.setStuid(stuid);
+		pro.setWorkid(kechengid);
+		pro.setCreatetime(time);
+		int i = prodao.insert(pro);
+		if(i>0){
+			return true;
+		}
 		return false;
 	}
 	@Override
 	public List<HomeWorkInfo> showHomeWork(String stuid) {
 		// TODO Auto-generated method stub
 		return studao.getHomeWork(stuid);
+	}
+	@Override
+	public List<StuproInfo> showStupro(String stuid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

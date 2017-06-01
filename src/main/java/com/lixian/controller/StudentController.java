@@ -2,6 +2,8 @@ package com.lixian.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -212,38 +214,62 @@ public class StudentController {
 		ret.setData(stuService.getStudentHaveKecheng(stuid));
 		return ret;
 	}
+	
+	/**
+	 * 提交作业
+	 * @param stuid 学号
+	 * @param token token
+	 * @param homeworkid
+	 * @param file
+	 * @return
+	 */
 	@RequestMapping(value="/commitHomeWork",method=RequestMethod.POST)
 	@ResponseBody
-	public Object commitHomeWork(String stuid,String homeworkid,@RequestParam("file")MultipartFile file){
+	public Object commitHomeWork(String stuid,String token,String homeworkid,@RequestParam("file")MultipartFile file){
 		MessageReturn ret=new MessageReturn();
-		if(Utils.isParmNull(stuid)||Utils.isParmNull(homeworkid)||file==null||file.isEmpty()){
+		if(Utils.isParmNull(stuid)||Utils.isParmNull(token)||Utils.isParmNull(homeworkid)||file==null||file.isEmpty()){
 			ret.setCode(ret.PARMISNULL);
 			ret.setMessage("参数为空");
 			return ret;
 		}
-		String path = saveFile(file,stuid,homeworkid);
-		if(path==null){
-			ret.setCode(ret.FILESAVEERROR);
-			ret.setMessage("文件存储异常");
+		if(checkUser(stuid, token)){
+			String path = saveFile(file,stuid,homeworkid);
+			if(path==null){
+				ret.setCode(ret.FILESAVEERROR);
+				ret.setMessage("文件存储异常");
+			}
+			System.out.println(path);
+			if(stuService.commitHomeWork(stuid, path, homeworkid)){
+				ret.setCode(ret.SUCCESS);
+				ret.setMessage("上传成功");
+				return ret;
+			}else{
+				ret.setCode(ret.DBERROR);
+				ret.setMessage("记录存储失败");
+				return ret;
+			}
+			
+		}else{
+			ret.setCode(ret.PASSWORDERROR);
+			ret.setMessage("用户不合法");
+			return ret;
 		}
-		stuService.commitHomeWork(stuid, path, homeworkid);
-		return ret;
 	}
+
 	private String saveFile(MultipartFile file,String stuid,String homeworkid) {
 		// TODO Auto-generated method stub
 		String root = System.getProperty("rootpath");
-		String[] split = file.getOriginalFilename().split(".");
 		
 		String uuid = UUID.randomUUID().toString();
 		String string = uuid.substring(0, 3);
-		if(split.length>1){
-			File f = new File(root+"/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0]+"."+split[1]);
+		
+			File f = new File(root+File.separator+"homework"+File.separator+stuid+File.separator+homeworkid+File.separator+string+file.getOriginalFilename());
 			if(!f.getParentFile().exists()){
 				f.getParentFile().mkdirs();
 			}
 			try {
 				file.transferTo(f);
-				return "/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0]+"."+split[1];
+				return File.separator+"homework"+File.separator+stuid+File.separator+homeworkid+File.separator+string+file.getOriginalFilename();
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
 				return null;
@@ -252,23 +278,7 @@ public class StudentController {
 //				e.printStackTrace();
 				return null;
 			}
-		}else{
-			File f = new File(root+"/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0]);
-			if(!f.getParentFile().exists()){
-				f.getParentFile().mkdirs();
-			}
-			try {
-				file.transferTo(f);
-				return "/homework/"+stuid+File.separator+homeworkid+File.separator+string+split[0];
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				return null;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
-				return null;
-			}
-		}
+	
 	}
 	/**
 	 * 查看作业
@@ -304,6 +314,23 @@ public class StudentController {
 			System.out.println(file.getOriginalFilename());
 		}
 		return "success";
+	}
+	@RequestMapping(value="/showScore",method=RequestMethod.POST)
+	@ResponseBody
+	public Object showScore(String stuid,String token){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(stuid)||Utils.isParmNull(token)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		if(!checkUser(stuid, token)){
+			ret.setCode(ret.PASSWORDERROR);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+		
+		return ret;
 	}
 	
 }

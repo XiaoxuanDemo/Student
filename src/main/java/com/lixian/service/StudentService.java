@@ -9,6 +9,7 @@ import com.lixian.model.KechengInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Stupro;
+import com.lixian.model.StuproInfo;
 
 public interface StudentService {
 	/**
@@ -85,4 +86,6 @@ public interface StudentService {
 	 * @return
 	 */
 	public List<HomeWorkInfo> showHomeWork(String stuid);
+	
+	public List<StuproInfo> showStupro(String stuid);
 }

@@ -12,11 +12,16 @@
 		<script>
 			function upload() {
 				var head = new FormData();
-
+				var obj=document.getElementById("homework");
+				var index = obj.selectedIndex;
+				var value = obj.options[index].value; // 选中值
 				head.append('file', $('#file')[0].files[0]);
+				head.append("stuid",GetQueryString("stuid"));
+				head.append("token",GetQueryString("token"));
+				head.append("homeworkid",value);
 				$.ajax({
 					type: "post",
-					url: "student/testFile",
+					url: "student/commitHomeWork",
 					data: head,
 					processData: false,
 					contentType: false
@@ -24,7 +29,7 @@
 					console.log(data)
 				});
 			}
-
+			
 			function loaddata() {
 				var stuid=GetQueryString("stuid");
 				var token=GetQueryString("token");
