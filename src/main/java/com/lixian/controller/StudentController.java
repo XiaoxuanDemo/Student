@@ -22,6 +22,7 @@ import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Stupro;
+import com.lixian.model.StuproInfo;
 import com.lixian.service.StudentService;
 import com.lixian.tools.MD5Tools;
 import com.lixian.tools.MessageReturn;
@@ -315,6 +316,12 @@ public class StudentController {
 		}
 		return "success";
 	}
+	/**
+	 * 学生提交作业信息查询
+	 * @param stuid
+	 * @param token
+	 * @return
+	 */
 	@RequestMapping(value="/showScore",method=RequestMethod.POST)
 	@ResponseBody
 	public Object showScore(String stuid,String token){
@@ -329,7 +336,10 @@ public class StudentController {
 			ret.setMessage("用户不合法");
 			return ret;
 		}
-		
+		List<StuproInfo> list = stuService.showStupro(stuid);
+		ret.setCode(ret.SUCCESS);
+		ret.setMessage("查询成功");
+		ret.setData(list);
 		return ret;
 	}
 	

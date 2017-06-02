@@ -156,7 +156,7 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public List<StuproInfo> showStupro(String stuid) {
 		// TODO Auto-generated method stub
-		return null;
+		return studao.getStuproInfo(stuid);
 	}
 
 }

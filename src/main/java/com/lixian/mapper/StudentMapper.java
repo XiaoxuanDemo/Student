@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
+import com.lixian.model.StuproInfo;
 
 public interface StudentMapper {
     int deleteByPrimaryKey(String id);
@@ -26,5 +27,5 @@ public interface StudentMapper {
     Integer getStudentCommitNum(@Param("stuid")String stuid);
     Integer getStudentKechenNum(@Param("stuid")String stuid);
     List<HomeWorkInfo> getHomeWork(@Param("stuid")String stuid);
-    Integer addStuHomeWrok();
+    List<StuproInfo> getStuproInfo(@Param("stuid")String stuid);
 }

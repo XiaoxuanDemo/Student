@@ -86,6 +86,10 @@ public interface StudentService {
 	 * @return
 	 */
 	public List<HomeWorkInfo> showHomeWork(String stuid);
-	
+	/**
+	 * 显示学生作业成绩等信息
+	 * @param stuid
+	 * @return
+	 */
 	public List<StuproInfo> showStupro(String stuid);
 }

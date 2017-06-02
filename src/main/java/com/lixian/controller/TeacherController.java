@@ -324,4 +324,28 @@ public class TeacherController {
 			return ret;
 		}
 	}
+	/**
+	 * 获取所有学生
+	 * @param teacherid 教师ID
+	 * @param token 用户token
+	 * @param pageSize 页面大小
+	 * @param pageNum 页数
+	 * @param type 类型 1.表示PC  2.移动端
+	 * @return
+	 */
+	public Object getAllStudent(String teacherid,String token,Integer pageSize,Integer pageNum,Integer type){
+		MessageReturn ret = new MessageReturn();
+		if(Utils.isParmNull(teacherid)||Utils.isParmNull(token)||type==null){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		if(!checkUser(teacherid, token)){
+			ret.setCode(ret.PASSWORDERROR);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+		
+		return ret;
+	}
 }
