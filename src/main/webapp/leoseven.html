@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js" />
+			<script>
+	function upload() {
+//				var head = new FormData();
+//				var obj=document.getElementById("homework");
+//				var index = obj.selectedIndex;
+//				var value = obj.options[index].value; // 选中值
+//				head.append('file', $('#file')[0].files[0]);
+//				head.append("stuid",GetQueryString("stuid"));
+//				head.append("token",GetQueryString("token"));
+//				head.append("homeworkid",value);
+//				$.ajax({
+//					type: "post",
+//					url: "student/testFile",
+////					data: head,
+//					processData: false,
+//					contentType: false
+//				}).done(function(data) {
+//					console.log(data)
+//				});
+				$(document).ready(function (){
+				$.ajax({
+					type: "get",
+					url: "student/commitHomeWork",
+					processData: false,
+					contentType: false
+				}).done(function(data) {
+					console.log(data)
+				});
+				})
+			}
+			</script>
+			
+
+			</script>
+			
+			
+	</head>
+	<body>
+	</body>
+</html>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Student;
@@ -308,13 +309,10 @@ public class StudentController {
 		}
 		
 	}
-	@RequestMapping(value="/testFile",method=RequestMethod.POST)
-	@ResponseBody
-	public String testFile(@RequestParam("file")MultipartFile file){
-		if(file!=null){
-			System.out.println(file.getOriginalFilename());
-		}
-		return "success";
+	@RequestMapping(value="/testFile")
+	public ModelAndView testFile(){
+		System.out.println("执行了重定向");
+		return new ModelAndView("forward:/import_class.html");
 	}
 	/**
 	 * 学生提交作业信息查询
