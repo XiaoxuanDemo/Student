@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
+import com.lixian.model.StudentInfo;
 import com.lixian.model.Teacher;
 import com.lixian.service.TeacherService;
 import com.lixian.tools.MD5Tools;
@@ -165,6 +166,7 @@ public class TeacherController {
 		if(Utils.isParmNull(teacherid)||Utils.isParmNull(password)){
 			ret.setCode(ret.PARMISNULL);
 			ret.setMessage("参数为空");
+			return ret;
 		}
 		Teacher tea = teaService.getTeacher(teacherid);
 		if(tea==null){
@@ -333,7 +335,9 @@ public class TeacherController {
 	 * @param type 类型 1.表示PC  2.移动端
 	 * @return
 	 */
-	public Object getAllStudent(String teacherid,String token,Integer pageSize,Integer pageNum,Integer type){
+	@RequestMapping(value="/getAllStudent",method=RequestMethod.POST)
+	@ResponseBody
+	public Object getAllStudent(String teacherid,String token,Integer pageSize,Integer pageNum,Integer type,String classid,String kechengid){
 		MessageReturn ret = new MessageReturn();
 		if(Utils.isParmNull(teacherid)||Utils.isParmNull(token)||type==null){
 			ret.setCode(ret.PARMISNULL);
@@ -345,7 +349,13 @@ public class TeacherController {
 			ret.setMessage("用户不合法");
 			return ret;
 		}
-		
+		List<StudentInfo> list = teaService.getAllStudent(pageSize, pageNum, classid, kechengid, teacherid);
+		ret.setCode(ret.SUCCESS);
+		ret.setMessage("查询成功");
+		Map m=new HashMap();
+		m.put("pageSize", pageSize);
+		m.put("pageNum", pageNum);
+		m.put("list", list);
 		return ret;
 	}
 }

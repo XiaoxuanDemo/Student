@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
+import com.lixian.model.Student;
+import com.lixian.model.StudentInfo;
 import com.lixian.model.Teacher;
 
 public interface TeacherService {
@@ -64,4 +66,6 @@ public interface TeacherService {
 	 * @return
 	 */
 	public boolean deleteHomeWork(String workid);
+	
+	public List<StudentInfo> getAllStudent(int pageSize,int pageNum,String classid,String kechengid,String teacherid);
 }

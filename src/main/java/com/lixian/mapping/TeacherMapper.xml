@@ -93,4 +93,13 @@
   <select id="searchTeacher" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select id,teachername,telphone,email FROM teacher where teachername like "%"#{teachername,jdbcType=VARCHAR}"%"
   </select>
+  <select id="searchStudent" parameterType="java.lang.String" resultType="com.lixian.model.StudentInfo">
+select distinct a.id,a.stunam,b.classname from user as a,banji as b,teacher as c,kecheng as d,stukecheng as e where d.teahcerid=c.id and e.kechengid=d.id and a.id=e.stuid and b.classid=a.classid and c.id=#{id,jdbcType=VARCHAR}
+	<if test="classid!=null">
+		and b.classid=#{classid,jdbcType=VARCHAR}
+	</if>
+	<if test="banjiid!=null">
+		and d.id=#{kechengid,jdbcType=VARCHAR}
+	</if>
+  </select>
 </mapper>

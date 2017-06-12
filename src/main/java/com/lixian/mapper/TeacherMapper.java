@@ -2,6 +2,9 @@ package com.lixian.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.lixian.model.StudentInfo;
 import com.lixian.model.Teacher;
 
 public interface TeacherMapper {
@@ -18,4 +21,6 @@ public interface TeacherMapper {
     int updateByPrimaryKey(Teacher record);
     
     List<Teacher> searchTeacher(String teachername);
+    
+    List<StudentInfo> searchStudent(@Param("id")String teacherid,@Param("classid")String classid,@Param("kechengid")String kechengid);
 }

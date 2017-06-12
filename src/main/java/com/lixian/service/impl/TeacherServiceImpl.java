@@ -7,11 +7,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.lixian.mapper.HomeworkMapper;
 import com.lixian.mapper.KechengMapper;
 import com.lixian.mapper.TeacherMapper;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
+import com.lixian.model.StudentInfo;
 import com.lixian.model.Teacher;
 import com.lixian.service.TeacherService;
 
@@ -99,6 +101,15 @@ public class TeacherServiceImpl implements TeacherService{
 		}
 		return false;
 	}
+	@Override
+	public List<StudentInfo> getAllStudent(int pageSize, int pageNum, String classid, String kechengid,
+			String teacherid) {
+		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum, pageSize);
+		List<StudentInfo> list = teadao.searchStudent(teacherid, classid, kechengid);
+		return list;
+	}
+	
 
 	
 	
