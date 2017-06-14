@@ -1,5 +1,9 @@
 package com.lixian.model;
-
+/**
+ * 学生作业展示类
+ * @author Administrator
+ *
+ */
 public class Stupro {
     private String id;
 
@@ -12,7 +16,7 @@ public class Stupro {
     private String createtime;
 
     private Integer score;
-
+    private Integer likepoint;
     public String getId() {
         return id;
     }
@@ -60,4 +64,12 @@ public class Stupro {
     public void setScore(Integer score) {
         this.score = score;
     }
+
+	public Integer getLikepoint() {
+		return likepoint;
+	}
+
+	public void setLikepoint(Integer likepoint) {
+		this.likepoint = likepoint;
+	}
 }

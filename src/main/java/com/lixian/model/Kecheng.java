@@ -1,5 +1,9 @@
 package com.lixian.model;
-
+/**
+ * ¿Î³ÌÐÅÏ¢base
+ * @author Administrator
+ *
+ */
 public class Kecheng {
     private String id;
 

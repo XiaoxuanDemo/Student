@@ -1,5 +1,9 @@
 package com.lixian.model;
-
+/**
+ * 作业信息base
+ * @author Administrator
+ *
+ */
 public class Homework {
     private String id;
 

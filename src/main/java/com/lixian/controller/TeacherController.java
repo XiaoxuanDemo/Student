@@ -358,4 +358,27 @@ public class TeacherController {
 		m.put("list", list);
 		return ret;
 	}
+	/**
+	 * 获取教师授课等信息
+	 * @param teacherid
+	 * @param token
+	 * @return
+	 */
+	@RequestMapping(value="/getTeacherLoginInfo",method=RequestMethod.POST)
+	@ResponseBody
+	public Object getTeacherLoginInfo(String teacherid,String token){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(token)||Utils.isParmNull(teacherid)){
+			ret.setMessage("参数为空");
+			ret.setCode(ret.PARMISNULL);
+			return ret;
+		}
+		if(!checkUser(teacherid, token)){
+			ret.setCode(ret.RECODEISNOFOUND);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+		
+		return ret;
+	}
 }

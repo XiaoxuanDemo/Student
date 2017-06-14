@@ -67,5 +67,14 @@ public interface TeacherService {
 	 */
 	public boolean deleteHomeWork(String workid);
 	
+	/**
+	 * 根据条件查询学生
+	 * @param pageSize
+	 * @param pageNum
+	 * @param classid
+	 * @param kechengid
+	 * @param teacherid
+	 * @return
+	 */
 	public List<StudentInfo> getAllStudent(int pageSize,int pageNum,String classid,String kechengid,String teacherid);
 }

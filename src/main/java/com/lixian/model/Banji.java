@@ -1,5 +1,9 @@
 package com.lixian.model;
-
+/**
+ * ∞‡º∂¿‡
+ * @author Administrator
+ *
+ */
 public class Banji {
     private String classid;
 

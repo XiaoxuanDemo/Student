@@ -1,5 +1,9 @@
 package com.lixian.model;
-
+/**
+ * 课程信息详细类
+ * @author Administrator
+ *
+ */
 public class KechengInfo {
 	private String id;//课程id
 	private String name;//课程名

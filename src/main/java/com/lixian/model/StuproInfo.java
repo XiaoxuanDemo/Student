@@ -1,5 +1,9 @@
 package com.lixian.model;
-
+/**
+ * 学生登录信息展示类
+ * @author Administrator
+ *
+ */
 public class StuproInfo {
 	private String id;
 	private String stuname;

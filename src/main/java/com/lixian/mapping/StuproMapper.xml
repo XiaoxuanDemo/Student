@@ -8,9 +8,10 @@
     <result column="filepath" property="filepath" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="likepoint" property="likepoint" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, stuid, workid, filepath, createtime, score
+    id, stuid, workid, filepath, createtime, score,likepoint
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,10 +25,10 @@
   </delete>
   <insert id="insert" parameterType="com.lixian.model.Stupro" >
     insert into stupro (id, stuid, workid, 
-      filepath, createtime, score
+      filepath, createtime, score,likepoint
       )
     values (#{id,jdbcType=VARCHAR}, #{stuid,jdbcType=VARCHAR}, #{workid,jdbcType=VARCHAR}, 
-      #{filepath,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}
+      #{filepath,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER},#{likepoint,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lixian.model.Stupro" >
@@ -91,6 +92,9 @@
       <if test="score != null" >
         score = #{score,jdbcType=INTEGER},
       </if>
+      <if test="likepoint!=null">
+      	likepoint=#{likepoint,jdbcType=INTEGER}
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -101,6 +105,7 @@
       filepath = #{filepath,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=VARCHAR},
       score = #{score,jdbcType=INTEGER}
+      likepoint=#{likepoint,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

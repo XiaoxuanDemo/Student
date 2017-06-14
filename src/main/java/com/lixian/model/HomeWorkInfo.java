@@ -1,5 +1,9 @@
 package com.lixian.model;
-
+/**
+ * 作业信息类
+ * @author Administrator
+ *
+ */
 public class HomeWorkInfo {
 	private String id;
 	private String name;
