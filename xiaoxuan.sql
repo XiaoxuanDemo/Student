@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50631
 File Encoding         : 65001
 
-Date: 2017-05-26 17:53:15
+Date: 2017-06-14 19:23:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -58,6 +58,23 @@ CREATE TABLE `homework` (
 -- Records of homework
 -- ----------------------------
 INSERT INTO `homework` VALUES ('8ab27b4f-7e53-4e3d-b1c0-361df0fda963', '语文作业', '抄写满江红', '1504919349', '070b28c3-dce0-4ad2-85e1-f5a708833ecd');
+INSERT INTO `homework` VALUES ('c8b4a71a-e997-456d-b23a-b3f6e90a5015', '语文作业', '抄写出师表', '1504919349', '3ee9b47b-4a24-4a40-bf3b-537e73a36596');
+INSERT INTO `homework` VALUES ('c92c384a-c879-484d-9bb1-ceaa7744de83', '语文作业', '抄写欢乐颂', '1504919349', '3ee9b47b-4a24-4a40-bf3b-537e73a36596');
+
+-- ----------------------------
+-- Table structure for homeworkdata
+-- ----------------------------
+DROP TABLE IF EXISTS `homeworkdata`;
+CREATE TABLE `homeworkdata` (
+  `id` int(11) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `fileid` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of homeworkdata
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for kecheng
@@ -121,7 +138,13 @@ CREATE TABLE `stukecheng` (
 -- ----------------------------
 -- Records of stukecheng
 -- ----------------------------
+INSERT INTO `stukecheng` VALUES ('0efa81bb-b27a-470a-9029-8a735c527957', 'A2013121004', '0b2844bd-fdb8-41f4-a3d6-3a5c9e1f5efc');
+INSERT INTO `stukecheng` VALUES ('3387db7b-ee3a-4c0f-92f0-b43c752e0127', 'A2013121003', '3ee9b47b-4a24-4a40-bf3b-537e73a36596');
+INSERT INTO `stukecheng` VALUES ('3e2d85d0-9e2f-4550-b9b5-3ae1cbbd7194', 'A2013121004', '3ee9b47b-4a24-4a40-bf3b-537e73a36596');
 INSERT INTO `stukecheng` VALUES ('3e2d85d0-9e2f-4550-b9b5-3ae1cbbd7195', 'A2013121004', '070b28c3-dce0-4ad2-85e1-f5a708833ecd');
+INSERT INTO `stukecheng` VALUES ('41737c79-3e4e-4626-a5f8-a31aad840d9a', 'A2013121003', '90611373-5a51-4b44-9dd4-2782beaf39a6');
+INSERT INTO `stukecheng` VALUES ('9b827381-92b9-476e-b37d-d43cd8d5eec6', 'A2013121004', '4840bb00-be87-425c-b437-dfa26319e152');
+INSERT INTO `stukecheng` VALUES ('c9388e79-1c42-4df6-8616-61ebf9c6ed15', 'A2013121004', '62e94782-06a7-48ce-9422-12278261a6f4');
 
 -- ----------------------------
 -- Table structure for stupro
@@ -134,6 +157,7 @@ CREATE TABLE `stupro` (
   `filepath` varchar(128) NOT NULL,
   `createtime` varchar(128) NOT NULL,
   `score` int(10) NOT NULL,
+  `likepoint` int(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `stu-pro` (`stuid`),
   KEY `pro-work` (`workid`),
@@ -144,6 +168,7 @@ CREATE TABLE `stupro` (
 -- ----------------------------
 -- Records of stupro
 -- ----------------------------
+INSERT INTO `stupro` VALUES ('dd44ac08-7ee4-4622-908b-154b7afa502c', 'A2013121004', 'c8b4a71a-e997-456d-b23a-b3f6e90a5015', '\\homework\\A2013121004\\c8b4a71a-e997-456d-b23a-b3f6e90a5015\\19dapp-debug.apk', '1496307712', '0', '0');
 
 -- ----------------------------
 -- Table structure for teacher
