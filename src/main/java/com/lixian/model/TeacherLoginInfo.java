@@ -6,7 +6,6 @@ package com.lixian.model;
  */
 public class TeacherLoginInfo {
 	private String id;//教师ID
-	private String token;//TOKEN
 	private String email;//电子邮件
 	private String telphone;//地址
 	private int classnum;//班级名字
@@ -17,12 +16,6 @@ public class TeacherLoginInfo {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
 	}
 	public String getEmail() {
 		return email;

@@ -15,6 +15,7 @@ import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Teacher;
+import com.lixian.model.TeacherLoginInfo;
 import com.lixian.service.TeacherService;
 
 @Service("TeacherService")
@@ -108,6 +109,12 @@ public class TeacherServiceImpl implements TeacherService{
 		PageHelper.startPage(pageNum, pageSize);
 		List<StudentInfo> list = teadao.searchStudent(teacherid, classid, kechengid);
 		return list;
+	}
+	@Override
+	public TeacherLoginInfo getLoginInfo(String teacherid) {
+		// TODO Auto-generated method stub
+		
+		return null;
 	}
 	
 

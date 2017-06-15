@@ -92,4 +92,6 @@ public interface StudentService {
 	 * @return
 	 */
 	public List<StuproInfo> showStupro(String stuid);
+	
+	public boolean updataPassWord(String id,String password);
 }

@@ -68,6 +68,38 @@ public class StudentController {
 		return ret;
 	}
 	/**
+	 * 修改用户密码
+	 * @param id 用户id
+	 * @param token token
+	 * @param password 新密码
+	 * @return
+	 */
+	@RequestMapping(value="/updatePassword",method=RequestMethod.POST)
+	@ResponseBody
+	public Object updatePassWord(String id,String token,String password){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(id)||Utils.isParmNull(token)||Utils.isParmNull(password)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		if(!checkUser(id, token)){
+			ret.setCode(ret.RECODEISNOFOUND);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+		if(stuService.updataPassWord(id, MD5Tools.MD5(password))){
+			ret.setMessage("更新成功");
+			ret.setCode(ret.SUCCESS);
+			return ret;
+		}else{
+			ret.setCode(ret.DBERROR);
+			ret.setMessage("修改失败");
+			return ret;
+		}
+		
+	}
+	/**
 	 * 获取用户展示信息
 	 * @param stuid
 	 * @param token
@@ -241,6 +273,7 @@ public class StudentController {
 				ret.setMessage("文件存储异常");
 			}
 			System.out.println(path);
+			//TODO更改加入作业逻辑
 			if(stuService.commitHomeWork(stuid, path, homeworkid)){
 				ret.setCode(ret.SUCCESS);
 				ret.setMessage("上传成功");

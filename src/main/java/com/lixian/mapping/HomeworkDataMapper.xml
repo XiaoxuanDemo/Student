@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lixian.mapper.HomeworkDataMapper" >
+  <resultMap id="BaseResultMap" type="com.lixian.model.HomeworkData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="fileid" property="fileid" jdbcType="VARCHAR" />
+    <result column="homeworkid" property="homeworkid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, content, fileid, homeworkid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from homeworkdata
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from homeworkdata
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lixian.model.HomeworkData" >
+    insert into homeworkdata (id, content, fileid, 
+      homeworkid)
+    values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{fileid,jdbcType=VARCHAR}, 
+      #{homeworkid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lixian.model.HomeworkData" >
+    insert into homeworkdata
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="fileid != null" >
+        fileid,
+      </if>
+      <if test="homeworkid != null" >
+        homeworkid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null" >
+        #{fileid,jdbcType=VARCHAR},
+      </if>
+      <if test="homeworkid != null" >
+        #{homeworkid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lixian.model.HomeworkData" >
+    update homeworkdata
+    <set >
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null" >
+        fileid = #{fileid,jdbcType=VARCHAR},
+      </if>
+      <if test="homeworkid != null" >
+        homeworkid = #{homeworkid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lixian.model.HomeworkData" >
+    update homeworkdata
+    set content = #{content,jdbcType=VARCHAR},
+      fileid = #{fileid,jdbcType=VARCHAR},
+      homeworkid = #{homeworkid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

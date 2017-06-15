@@ -1,5 +1,10 @@
 package com.lixian.service.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +18,7 @@ import com.lixian.mapper.StudentMapper;
 import com.lixian.mapper.StuproMapper;
 import com.lixian.model.HomeWorkInfo;
 import com.lixian.model.Homework;
+import com.lixian.model.HomeworkData;
 import com.lixian.model.Kecheng;
 import com.lixian.model.KechengInfo;
 import com.lixian.model.Student;
@@ -20,6 +26,8 @@ import com.lixian.model.StudentInfo;
 import com.lixian.model.Stupro;
 import com.lixian.model.StuproInfo;
 import com.lixian.service.StudentService;
+
+import fr.opensagres.xdocreport.core.io.internal.ByteArrayOutputStream;
 
 @Service("StudentService")
 public class StudentServiceImpl implements StudentService{
@@ -142,7 +150,7 @@ public class StudentServiceImpl implements StudentService{
 		pro.setStuid(stuid);
 		pro.setWorkid(kechengid);
 		pro.setCreatetime(time);
-		int i = prodao.insert(pro);
+		int i = prodao.insertSelective(pro);
 		if(i>0){
 			return true;
 		}
@@ -158,5 +166,54 @@ public class StudentServiceImpl implements StudentService{
 		// TODO Auto-generated method stub
 		return studao.getStuproInfo(stuid);
 	}
-
+	/**
+	 * 文本查重存库
+	 * @author Administrator
+	 * 暂时不做 
+	 */
+	class SaveFile implements Runnable{
+		private String path;//文件路径
+		private String homeworkid;
+		private String proid;//作业ID
+		public SaveFile(String path,String homeworid,String proid){
+			String root = System.getProperty("rootpath");
+			this.path=root+path;
+			this.homeworkid=homeworid;
+		}
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			try {
+				FileInputStream fis = new FileInputStream(new File("E:\\workspace\\MyApplication\\app\\src\\main\\java\\leoseven\\com\\stcamera\\STcameraView.java"));
+				ByteArrayOutputStream baos=new ByteArrayOutputStream();
+				int len=0;
+				byte[] buffer=new byte[1024];
+				while (-1!=(len=fis.read(buffer))) {
+					baos.write(buffer,0,len);
+				}
+				byte[] data = baos.toByteArray();
+				String string = new String(data,"UTF-8");
+				String[] split = string.split("\n");
+				ArrayList<String> list = new ArrayList<String>();
+				for (int i = 0; i < split.length; i++) {
+					if(split[i].indexOf("}")==-1&&split[i].indexOf("{")==-1&&split[i].indexOf("*")==-1&&split[i].indexOf("import")==-1){
+						HomeworkData d = new HomeworkData();
+					}
+					
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	@Override
+	public boolean updataPassWord(String id, String password) {
+		// TODO Auto-generated method stub
+		return studao.updatePassword(id, password)>0?true:false;
+	}
 }

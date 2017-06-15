@@ -28,4 +28,5 @@ public interface StudentMapper {
     Integer getStudentKechenNum(@Param("stuid")String stuid);
     List<HomeWorkInfo> getHomeWork(@Param("stuid")String stuid);
     List<StuproInfo> getStuproInfo(@Param("stuid")String stuid);
+    Integer updatePassword(@Param("id")String id,@Param("password")String password);
 }

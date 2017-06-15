@@ -102,4 +102,25 @@ select distinct a.id,a.stunam,b.classname from user as a,banji as b,teacher as c
 		and d.id=#{kechengid,jdbcType=VARCHAR}
 	</if>
   </select>
+  <select id="gethomework" parameterType="java.lang.String" resultType="com.lixian.model.Homework">
+ select	b.* from kecheng as a right JOIN homework as b ON b.kechengid=a.id where a.teahcerid=#{teacherid,jdbcType=VARCHAR}
+  </select>
+  <select id="getkecheng" parameterType="java.lang.String" resultType="com.lixian.model.Kecheng">
+	select	a.* from kecheng as a where a.teahcerid=#{teacherid,jdbcType=VARCHAR}
+  </select>
+  <select id="getkechengCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(a.*) from kecheng as a where a.teahcerid=#{teacherid,jdbcType=VARCHAR}
+  </select>
+  <select id="gethomeworkcount" parameterType="java.lang.String" resultType="java.lang.Integer">
+   select	count(b.*) from kecheng as a right JOIN homework as b ON b.kechengid=a.id where a.teahcerid=#{teacherid,jdbcType=VARCHAR}
+  </select>
+  <select id="getstuprocount" parameterType="java.lang.String" resultType="java.lang.Integer">
+  select count(a.id) from stupro as a,homework as b where a.workid=b.id and b.id in(select	c.id from kecheng as d right JOIN homework as c ON c.kechengid=d.id where d.teahcerid=#{teacherid,jdbcType=VARCHAR} GROUP BY id)
+  </select>
+  <select id="getallstupro" parameterType="java.lang.String" resultType="com.lixian.Stupro">
+  select a.* from stupro as a,homework as b where a.workid=b.id and b.id in(select	c.id from kecheng as d right JOIN homework as c ON c.kechengid=d.id where d.teahcerid="A0000004" GROUP BY id)
+  </select>
+  <select id="getstupro" parameterType="com.lixian.model.StuproRequest" resultType="com.lixian.model.Stupro">
+  	
+  </select>
 </mapper>

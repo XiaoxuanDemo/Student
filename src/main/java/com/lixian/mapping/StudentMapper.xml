@@ -107,4 +107,7 @@
   	select a.id,a.createtime,a.score,b.`name` as workname,c.`name` as kechengname,d.stunam as stuname from stupro as a,homework as b,kecheng as c,user as d
 where b.id=a.workid and b.kechengid=c.id and a.stuid=d.id and a.stuid=#{stuid,jdbcType=VARCHAR}
   </select>
+  <update id="updatePassword" parameterType="java.lang.String">
+  	update user set password=#{password,jdbcType=VARCHAR} where id=#{id,jdbcType=VARHCAR}
+  </update>
 </mapper>

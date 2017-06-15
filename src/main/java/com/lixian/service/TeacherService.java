@@ -7,6 +7,7 @@ import com.lixian.model.Kecheng;
 import com.lixian.model.Student;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Teacher;
+import com.lixian.model.TeacherLoginInfo;
 
 public interface TeacherService {
 	/**
@@ -77,4 +78,6 @@ public interface TeacherService {
 	 * @return
 	 */
 	public List<StudentInfo> getAllStudent(int pageSize,int pageNum,String classid,String kechengid,String teacherid);
+	
+	public TeacherLoginInfo getLoginInfo(String teacherid);
 }
