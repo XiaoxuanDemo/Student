@@ -4,8 +4,7 @@ import java.security.MessageDigest;
 /** 
  * MD5加密工具类 
  */  
-public abstract class MD5Tools  
-{  
+public abstract class MD5Tools  {  
     public final static String MD5(String pwd) {  
         //用于加密的字符  
         char md5String[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',  
@@ -39,5 +38,19 @@ public abstract class MD5Tools
         } catch (Exception e) {  
             return null;  
         }  
-    }  
+    } 
+    public static String jiami(String imei,long time){
+		long l = System.currentTimeMillis();
+		String md5 = MD5Tools.MD5(imei+l);
+		char[] array = md5.toCharArray();
+		int[] it=new int[8];
+		for (int i = 0; i < it.length; i++) {
+			it[i]=(int)array[i]%10;
+		}
+		String password="";
+		for (int i = 0; i < it.length; i++) {
+			password=password+it[i];
+		}
+		return password;
+	}
 }  

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.lixian.model.Banji;
+import com.lixian.model.Kecheng;
 import com.lixian.model.StudentInfo;
 import com.lixian.model.Teacher;
 
@@ -23,4 +25,6 @@ public interface TeacherMapper {
     List<Teacher> searchTeacher(String teachername);
     
     List<StudentInfo> searchStudent(@Param("id")String teacherid,@Param("classid")String classid,@Param("kechengid")String kechengid);
+    
+    List<Banji> getAllClass();
 }

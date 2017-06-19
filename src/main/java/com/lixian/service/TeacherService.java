@@ -2,6 +2,7 @@ package com.lixian.service;
 
 import java.util.List;
 
+import com.lixian.model.Banji;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.Student;
@@ -78,6 +79,14 @@ public interface TeacherService {
 	 * @return
 	 */
 	public List<StudentInfo> getAllStudent(int pageSize,int pageNum,String classid,String kechengid,String teacherid);
-	
+	/**
+	 * 获取教师登陆信息
+	 * @param teacherid
+	 * @return
+	 */
 	public TeacherLoginInfo getLoginInfo(String teacherid);
+	/**
+	 * 获取班级
+	 */
+	public List<Banji> getBanji();
 }

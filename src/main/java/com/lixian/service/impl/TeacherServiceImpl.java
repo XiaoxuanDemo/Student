@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
+import com.lixian.mapper.BanjiMapper;
 import com.lixian.mapper.HomeworkMapper;
 import com.lixian.mapper.KechengMapper;
 import com.lixian.mapper.TeacherMapper;
+import com.lixian.model.Banji;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.StudentInfo;
@@ -26,6 +28,8 @@ public class TeacherServiceImpl implements TeacherService{
 	private KechengMapper kcdao;
 	@Resource
 	private HomeworkMapper workdao;
+	@Resource
+	private BanjiMapper bjdao;
 	public boolean addTeacher(Teacher teacher) {
 		// TODO Auto-generated method stub
 		return true;
@@ -115,6 +119,12 @@ public class TeacherServiceImpl implements TeacherService{
 		// TODO Auto-generated method stub
 		
 		return null;
+	}
+	@Override
+	public List<Banji> getBanji() {
+		// TODO Auto-generated method stub
+		
+		return teadao.getAllClass();
 	}
 	
 

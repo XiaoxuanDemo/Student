@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lixian.model.Banji;
 import com.lixian.model.Homework;
 import com.lixian.model.Kecheng;
 import com.lixian.model.StudentInfo;
@@ -30,6 +31,7 @@ import com.lixian.service.TeacherService;
 import com.lixian.tools.MD5Tools;
 import com.lixian.tools.MessageReturn;
 import com.lixian.tools.Utils;
+import com.mysql.jdbc.Util;
 
 @Controller
 @RequestMapping("/teacher")
@@ -381,4 +383,25 @@ public class TeacherController {
 		
 		return ret;
 	}
+	@RequestMapping(value="/getClass",method=RequestMethod.POST)
+	@ResponseBody
+	public Object getClass(String teacherid,String token){
+		MessageReturn ret=new MessageReturn();
+		if(Utils.isParmNull(teacherid)||Utils.isParmNull(token)){
+			ret.setCode(ret.PARMISNULL);
+			ret.setMessage("参数为空");
+			return ret;
+		}
+		if(!checkUser(teacherid, token)){
+			ret.setCode(ret.RECODEISNOFOUND);
+			ret.setMessage("用户不合法");
+			return ret;
+		}
+		ret.setCode(ret.SUCCESS);
+		ret.setMessage("查询成功");
+		List<Banji> banji = teaService.getBanji();
+		ret.setData(banji);
+		return ret;
+	}
+	
 }

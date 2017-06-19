@@ -14,4 +14,5 @@ public interface BanjiMapper {
     int updateByPrimaryKeySelective(Banji record);
 
     int updateByPrimaryKey(Banji record);
+ 
 }

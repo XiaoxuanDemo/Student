@@ -108,6 +108,6 @@
 where b.id=a.workid and b.kechengid=c.id and a.stuid=d.id and a.stuid=#{stuid,jdbcType=VARCHAR}
   </select>
   <update id="updatePassword" parameterType="java.lang.String">
-  	update user set password=#{password,jdbcType=VARCHAR} where id=#{id,jdbcType=VARHCAR}
+  	update user set password=#{password,jdbcType=VARCHAR} where id=#{id,jdbcType=VARCHAR}
   </update>
 </mapper>
